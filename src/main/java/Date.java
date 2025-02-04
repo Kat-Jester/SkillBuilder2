@@ -104,32 +104,34 @@ public class Date {
      * @return the name of the month given the numeric value provided by month
      */
     public static String getMonthName(int month) {
-        if (month == 1) {
-            return "January";
-        } else if (month == 2) {
-            return "February";
-        } else if (month == 3) {
-            return "March";
-        } else if (month == 4) {
-            return "April";
-        } else if (month == 5) {
-            return "May";
-        } else if (month == 6) {
-            return "June";
-        } else if (month == 7) {
-            return "July";
-        } else if (month == 8) {
-            return "August";
-        } else if (month == 9) {
-            return "September";
-        } else if (month == 10) {
-            return "October";
-        } else if (month == 11) {
-            return "November";
-        } else if (month == 12) {
-            return "December";
-        } else
-            return null;
+        switch (month) {
+            case 1:
+                return "January";
+            case 2:
+                return "February";
+            case 3:
+                return "March";
+            case 4:
+                return "April";
+            case 5:
+                return "May";
+            case 6:
+                return "June";
+            case 7:
+                return "July";
+            case 8:
+                return "August";
+            case 9:
+                return "September";
+            case 10:
+                return "October";
+            case 11:
+                return "November";
+            case 12:
+                return "December";
+            default:
+                return null;
+        }
     }
 
     /**
@@ -140,18 +142,24 @@ public class Date {
      * @return the number of days in the month given by the parameter month
      */
     public static int getDaysInMonth(int month, int year) {
-        if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
-            return 31;
-        } else if (month == 4 || month == 6 || month == 9 || month == 11) {
-            return 30;
-        } else if (month == 2) {
-            if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
-                return 29;
-            } else {
-                return 28;
-            }
-        } else {
-            return -1;
+        switch (month) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                return 31;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                return 30;
+            case 2:
+                return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0) ? 29 : 28;
+            default:
+                return -1;
         }
     }
 
@@ -300,7 +308,6 @@ public class Date {
      * @return the day of the week that the date falls on
      */
     public static int dayOfWeek(String month, int dayOfMonth, int year) {
-
         int monthNumber = -1;
         month = month.toLowerCase();
         if (month.equals("january")) monthNumber = 1;
@@ -316,46 +323,9 @@ public class Date {
         else if (month.equals("november")) monthNumber = 11;
         else if (month.equals("december")) monthNumber = 12;
 
-
         if (monthNumber == -1) return -1;
 
-
-        int daysInMonth;
-        boolean isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-
-        if (monthNumber == 2) {
-            daysInMonth = isLeapYear ? 29 : 28;
-        } else if (monthNumber == 4 || monthNumber == 6 || monthNumber == 9 || monthNumber == 11) {
-            daysInMonth = 30;
-        } else {
-            daysInMonth = 31;
-        }
-
-        if (dayOfMonth < 1 || dayOfMonth > daysInMonth) {
-            return -1;
-        }
-
-
-        int jan1Day = (year + (year - 1) / 4 - (year - 1) / 100 + (year - 1) / 400) % 7;
-
-
-        int monthOffset = 0;
-        if (monthNumber == 1) monthOffset = 0;
-        else if (monthNumber == 2) monthOffset = 3;
-        else if (monthNumber == 3) monthOffset = isLeapYear ? 4 : 3;
-        else if (monthNumber == 4) monthOffset = isLeapYear ? 0 : 6;
-        else if (monthNumber == 5) monthOffset = isLeapYear ? 2 : 1;
-        else if (monthNumber == 6) monthOffset = isLeapYear ? 5 : 4;
-        else if (monthNumber == 7) monthOffset = isLeapYear ? 0 : 6;
-        else if (monthNumber == 8) monthOffset = isLeapYear ? 3 : 2;
-        else if (monthNumber == 9) monthOffset = isLeapYear ? 6 : 5;
-        else if (monthNumber == 10) monthOffset = isLeapYear ? 1 : 0;
-        else if (monthNumber == 11) monthOffset = isLeapYear ? 4 : 3;
-        else if (monthNumber == 12) monthOffset = isLeapYear ? 6 : 5;
-
-        int dayOfWeek = (jan1Day + monthOffset + (dayOfMonth - 1)) % 7;
-
-        return dayOfWeek;
+        return dayOfWeek(monthNumber, dayOfMonth, year);
     }
 }
 
